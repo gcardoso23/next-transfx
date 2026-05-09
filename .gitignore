@@ -1,0 +1,19 @@
+# Dependencies
+node_modules
+
+# Build outputs
+.next/
+dist
+next-env.d.ts
+*.tsbuildinfo
+
+# Testing
+coverage
+playwright-report
+test-results
+
+# Debug
+npm-debug.log*
+
+# Misc
+.DS_Store

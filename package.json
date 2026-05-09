@@ -2,8 +2,11 @@
   "name": "next-transfx-workspace",
   "private": true,
   "scripts": {
+    "build": "bun run --filter next-transfx build",
+    "check-types": "bun run build && bun run --filter '*' check-types",
     "lint": "biome check .",
-    "format": "biome format --write ."
+    "format": "biome format --write .",
+    "test": "bun run --filter next-transfx test"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.15",

@@ -1,0 +1,44 @@
+{
+  "name": "next-transfx",
+  "version": "0.1.0",
+  "description": "Page transitions for the Next.js App Router: animate out, navigate, animate in. Browser back and forward included.",
+  "keywords": [
+    "next",
+    "nextjs",
+    "app-router",
+    "page-transitions",
+    "transition",
+    "barba"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "src",
+    "!src/**/*.test.ts"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
+    "check-types": "tsc --noEmit",
+    "test": "bun test"
+  },
+  "peerDependencies": {
+    "next": ">=15.3.0",
+    "react": ">=19.0.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.0",
+    "@types/react": "^19.3.0",
+    "next": "^16.4.0",
+    "react": "^19.3.0"
+  }
+}

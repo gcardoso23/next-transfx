@@ -1,5 +1,6 @@
 'use client'
 
+export { Link, type LinkProps } from './link.js'
 export { TransitionRouter, type TransitionRouterProps } from './router.js'
 export type {
   Direction,

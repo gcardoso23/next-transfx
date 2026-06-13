@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 
 import { Navigation } from './components/Navigation'
+import { Status } from './components/Status'
 import { Transitions } from './transitions'
 
 export const metadata: Metadata = {
@@ -19,6 +20,8 @@ export default function Layout({ children }: { children: ReactNode }) {
           <Navigation />
 
           <main className="page">{children}</main>
+
+          <Status />
         </Transitions>
       </body>
     </html>

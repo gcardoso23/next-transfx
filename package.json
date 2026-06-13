@@ -7,7 +7,8 @@
     "check-types": "bun run build && bun run --filter '*' check-types",
     "lint": "biome check .",
     "format": "biome format --write .",
-    "test": "bun run --filter next-transfx test"
+    "test": "bun run --filter next-transfx test",
+    "test:e2e": "bun run build && bun run --filter basic test:e2e"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.15",

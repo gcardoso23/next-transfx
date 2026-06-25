@@ -20,7 +20,11 @@ export type TransitionContext = TransitionDetails & {
   signal: AbortSignal
 }
 
-export type TransitionHandler = (context: TransitionContext) => void | Promise<void>
+/**
+ * Whatever it returns is awaited, so a promise works as well as the tween of
+ * an animation library that can be awaited.
+ */
+export type TransitionHandler = (context: TransitionContext) => unknown
 
 export type TransitionHandlers = {
   /** Runs on the page being left, which stays on screen until it resolves. */

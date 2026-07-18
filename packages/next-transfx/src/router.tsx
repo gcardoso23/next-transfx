@@ -6,7 +6,6 @@ import {
   Suspense,
   startTransition,
   useCallback,
-  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -146,7 +145,10 @@ export function TransitionRouter({ children, enter, leave, scrollRestoration = t
   // would swap the page at once. The event is kept from it instead, the page on
   // screen leaves, and the router is then given the same event again.
   //
-  useEffect(() => {
+  // Listeners are added in layout effects: a click can come between the page
+  // being hydrated and its other effects, and has to find them all in place.
+  //
+  useLayoutEffect(() => {
     let replayed: PopStateEvent | undefined
 
     const onPopState = (event: PopStateEvent) => {
@@ -204,7 +206,7 @@ export function TransitionRouter({ children, enter, leave, scrollRestoration = t
   // Left to itself, the browser scrolls to the position of the entry as soon
   // as the back button is pressed, which is under the page that is leaving.
   //
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!scrollRestoration) {
       return
     }

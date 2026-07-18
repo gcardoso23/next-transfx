@@ -189,6 +189,24 @@ function suite() {
     }
   })
 
+  test('the scroll of a page is the one it had as it was left, even if it had just changed', async ({ page }) => {
+    await page.goto('/about')
+
+    // In one go, so that the click comes before the scroll is heard of.
+    await page.evaluate(() => {
+      window.scrollTo(0, 700)
+
+      document.querySelector<HTMLElement>('.navigation a[href="/work"]')!.click()
+    })
+
+    await entered(page, 'Work')
+
+    await page.goBack()
+    await entered(page, 'About')
+
+    expect(await page.evaluate(() => window.scrollY)).toBe(700)
+  })
+
   test('going back twice in a row is one transition, and the history is kept', async ({ page }) => {
     await page.goto('/')
     await follow(page, 'Work', 'Work')

@@ -117,8 +117,13 @@ export function TransitionRouter({ children, enter, leave, scrollRestoration = t
           return false
         }
 
-        if (to === getDisplayed().url && controller.getState().phase === 'idle') {
-          return false
+        if (controller.getState().phase === 'idle') {
+          // With no page leaving, the one on screen is the one the browser is on.
+          setDisplayed()
+
+          if (to === getDisplayed().url) {
+            return false
+          }
         }
 
         controller.navigate({
@@ -131,7 +136,7 @@ export function TransitionRouter({ children, enter, leave, scrollRestoration = t
         return true
       },
     }),
-    [commit, controller, getDisplayed, router],
+    [commit, controller, getDisplayed, router, setDisplayed],
   )
 
   //
@@ -204,13 +209,21 @@ export function TransitionRouter({ children, enter, leave, scrollRestoration = t
       return
     }
 
+    // The position a page starts to leave at is the one to come back to. It is
+    // read then, as a scroll is only heard of with the next frame, which is
+    // too late for a click that comes right after it.
+    const unregister = controller.register(() => ({
+      leave: () => saveScroll(getDisplayed()),
+    }))
+
+    // Keeps the position of the entries that are left without a transition,
+    // such as the ones a hash makes.
     const onScroll = () => {
       const { phase } = controller.getState()
 
-      // From the moment a page starts to leave, the position it was left at is
-      // the one to come back to.
       if (phase === 'idle' || phase === 'entering') {
-        saveScroll(readEntry())
+        setDisplayed()
+        saveScroll(getDisplayed())
       }
     }
 
@@ -233,13 +246,14 @@ export function TransitionRouter({ children, enter, leave, scrollRestoration = t
     window.addEventListener('scroll', onScroll, { passive: true })
 
     return () => {
+      unregister()
       onPageHide()
 
       window.removeEventListener('pagehide', onPageHide)
       window.removeEventListener('pageshow', onPageShow)
       window.removeEventListener('scroll', onScroll)
     }
-  }, [controller, scrollRestoration])
+  }, [controller, getDisplayed, scrollRestoration, setDisplayed])
 
   return (
     <TransfxContext value={transfx}>

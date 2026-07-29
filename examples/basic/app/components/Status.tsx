@@ -5,11 +5,9 @@ import { useSyncExternalStore } from 'react'
 
 import { getRecords, subscribe } from '../log'
 
-const getNoRecords = () => []
-
 export function Status() {
   const state = useTransitionState()
-  const records = useSyncExternalStore(subscribe, getRecords, getNoRecords)
+  const records = useSyncExternalStore(subscribe, getRecords, getRecords)
 
   return (
     <aside className="status" data-phase={state.phase}>

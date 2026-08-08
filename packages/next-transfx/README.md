@@ -19,7 +19,18 @@ Built and tested against Next.js 16.4 and React 19.3, in Chromium and WebKit. Ea
 
 ## Install
 
-The package is not on npm yet. Build it with `bun run build` from the root of this repository, then add it to a project as a workspace or `file:` dependency.
+The package is not on npm yet. Until it is, pack it and install the tarball in the project that uses it:
+
+```sh
+# in this repository
+bun run build
+cd packages/next-transfx && bun pm pack
+
+# in the Next.js project
+bun add /path/to/next-transfx/packages/next-transfx/next-transfx-0.1.0.tgz
+```
+
+A tarball is better than a `file:` or linked folder here: a linked folder brings its own copy of React, and two copies of React break hooks and context.
 
 ## Setup
 

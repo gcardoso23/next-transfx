@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "bun run --filter next-transfx build",
-    "dev": "bun run build && bun run --filter '*' dev",
+    "dev": "bun run build && bun run --parallel --filter '*' dev",
     "check-types": "bun run build && bun run --filter '*' check-types",
     "lint": "biome check .",
     "format": "biome format --write .",

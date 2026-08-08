@@ -12,7 +12,7 @@ Requires [Bun](https://bun.sh) 1.3.14 or later.
 ```sh
 bun install
 
-bun run dev          # the library in watch mode, and the example on http://localhost:3000
+bun run dev          # the library in watch mode, and the example on http://localhost:3200
 bun run build        # the library, to packages/next-transfx/dist
 bun run test         # unit tests of the transition state machine
 bun run test:e2e     # browser tests of the example, in Chromium and WebKit

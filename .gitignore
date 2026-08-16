@@ -20,3 +20,4 @@ npm-debug.log*
 
 # Packed library
 *.tgz
+packages/next-transfx/README.md

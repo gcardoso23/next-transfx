@@ -33,20 +33,11 @@ Built and tested against Next.js 16.4 and React 19.3, in Chromium and WebKit. Ea
 
 ## Install
 
-next-transfx is not on npm yet. Until it is, build a tarball from this repository and install that:
-
 ```sh
-# in this repository
-bun install
-cd packages/next-transfx && bun pm pack
-
-# in your Next.js project
-bun add /path/to/next-transfx/packages/next-transfx/next-transfx-0.1.0.tgz
+npm install next-transfx
 ```
 
-Use the tarball rather than a `file:` or `link:` dependency. A linked folder brings its own copy of React, and two copies of React break hooks and context.
-
-Once it is published, this becomes `bun add next-transfx`.
+Or `bun add next-transfx`, `pnpm add next-transfx`, `yarn add next-transfx`.
 
 ## Quick start
 
@@ -380,6 +371,19 @@ bun run lint
 The browser tests need Playwright's browsers once: run `bunx playwright install chromium webkit` from `examples/basic`.
 
 This README is also the package's: it is copied into `packages/next-transfx` whenever the package is packed or published.
+
+### Trying a local build in another project
+
+Pack the package, and install the tarball in the other project:
+
+```sh
+cd packages/next-transfx && bun pm pack
+
+# in the other project
+bun add /path/to/next-transfx/packages/next-transfx/next-transfx-0.1.0.tgz
+```
+
+Use the tarball rather than a `file:` or `link:` dependency. A linked folder brings its own copy of React, and two copies of React break hooks and context.
 
 ### Publishing
 

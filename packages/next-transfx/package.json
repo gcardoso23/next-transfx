@@ -9,6 +9,16 @@
     "page-transitions",
     "transition"
   ],
+  "homepage": "https://github.com/gcardoso23/next-transfx#readme",
+  "bugs": {
+    "url": "https://github.com/gcardoso23/next-transfx/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gcardoso23/next-transfx.git",
+    "directory": "packages/next-transfx"
+  },
+  "author": "Gustavo Cardoso",
   "type": "module",
   "sideEffects": false,
   "files": [

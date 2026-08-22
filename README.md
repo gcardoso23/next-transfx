@@ -2,7 +2,7 @@
 
 Page transitions for the Next.js App Router.
 
-Out of the box, Next.js swaps a page the moment a link is clicked, so there is no moment to animate the old page out. The back button is the same, only worse: the page changes before your code even hears about it.
+Out of the box, Next.js replaces the page as soon as the next one is ready, so the old page never gets to animate out. The back and forward buttons are worse: the page changes the instant they are pressed.
 
 next-transfx holds the navigation until your `leave` animation has finished, lets Next.js render the next page, then runs your `enter` animation before that page is ever painted. The back and forward buttons play the same transition as a link.
 
@@ -10,7 +10,7 @@ next-transfx holds the navigation until your `leave` animation has finished, let
 - **Back and forward buttons** animate like links, with no setup
 - **Scroll position restored** on back and forward, hidden between `leave` and `enter`
 - **No flash**: `enter` runs before the first paint of the next page
-- **Any animation library**: the Web Animations API, GSAP, Motion, anime.js or CSS
+- **Any animation library**: the Web Animations API, GSAP, Motion, anime.js, or anything that returns a promise
 - **Interruptions handled**: click again or press back mid-animation and the latest navigation wins
 
 ## Contents
@@ -96,7 +96,7 @@ export default function Page() {
 }
 ```
 
-That's it. Click a link and the page fades out, then the next one fades in. Press the browser's back button and the same thing happens in reverse.
+That's it. Click a link and the page fades out, then the next one fades in. The browser's back and forward buttons play the same transition.
 
 ## Recipes
 
@@ -222,7 +222,7 @@ export function Close() {
 
 `push` and `replace` play the transition. `back` and `forward` play it too, because they are the browser's buttons.
 
-### Show a loader, or lock the page, during a transition
+### Show a loader during a transition
 
 `useTransitionState` tells you where the transition is. Putting its phase on `<html>` lets CSS do the rest:
 
@@ -268,9 +268,9 @@ const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matc
 >
 ```
 
-### Smooth scroll or a scroll container
+### Pages that scroll inside an element
 
-next-transfx restores the scroll of the window. If your pages scroll inside an element, or a library like Lenis owns the scroll, turn that off and restore it in `enter`:
+next-transfx restores the scroll position of the window. If your pages scroll inside an element of their own, turn that off and restore their scroll yourself in `enter`:
 
 ```tsx
 <TransitionRouter scrollRestoration={false}>
@@ -340,11 +340,11 @@ During that `leave`, the address bar already shows the page being gone to. That'
 - **While the next page loads**, it goes straight to Next.js, as it would without transitions.
 - **During `enter`**, `signal` is aborted and the page leaves again, from wherever it got to.
 
-next-transfx uses no private Next.js API. It relies on two things the App Router does: it listens to `popstate` on `window`, and it navigates inside a React transition. The browser tests in this repository cover both, and are worth running after upgrading Next.js.
+next-transfx uses no private Next.js API. It relies on two things the App Router does: it listens to `popstate` on `window`, and it navigates inside a React transition. The browser tests in the [repository](https://github.com/gcardoso23/next-transfx) cover both, and are worth running after upgrading Next.js.
 
 ## Good to know
 
-- **Only `Link` and `useTransitionRouter` animate.** A plain `next/link` still works, with no transition.
+- **Links need `Link` from next-transfx**, or `useTransitionRouter`. A plain `next/link` still works, with no transition. The back and forward buttons always animate.
 - **The first page load has no `enter`.** It arrives already painted from the server. Use a preloader for that.
 - **With a `loading.tsx`**, `enter` runs as soon as the loading state shows, since that is when Next.js swaps the route.
 - **With `cacheComponents`**, Next.js keeps the page you left in the DOM, hidden, and shows that same DOM again on the way back. Whatever `leave` does to an element, its `enter` must undo.
@@ -370,8 +370,6 @@ bun run lint
 
 The browser tests need Playwright's browsers once: run `bunx playwright install chromium webkit` from `examples/basic`.
 
-This README is also the package's: it is copied into `packages/next-transfx` whenever the package is packed or published.
-
 ### Trying a local build in another project
 
 Pack the package, and install the tarball in the other project:
@@ -384,19 +382,3 @@ bun add /path/to/next-transfx/packages/next-transfx/next-transfx-0.1.0.tgz
 ```
 
 Use the tarball rather than a `file:` or `link:` dependency. A linked folder brings its own copy of React, and two copies of React break hooks and context.
-
-### Publishing
-
-Packing and publishing build the library first, so `dist` is never stale.
-
-```sh
-cd packages/next-transfx
-
-npm login                  # once
-npm version patch          # or minor, or major
-bun install                # updates the version in bun.lock
-npm publish --dry-run      # builds, and lists what would be uploaded
-npm publish
-```
-
-Commit the new version afterwards. `npm version` only changes `package.json` here, since the package is not at the root of the repository.

@@ -382,3 +382,7 @@ bun add /path/to/next-transfx/packages/next-transfx/next-transfx-0.1.0.tgz
 ```
 
 Use the tarball rather than a `file:` or `link:` dependency. A linked folder brings its own copy of React, and two copies of React break hooks and context.
+
+## License
+
+MIT

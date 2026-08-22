@@ -19,6 +19,7 @@
     "directory": "packages/next-transfx"
   },
   "author": "Gustavo Cardoso",
+  "license": "MIT",
   "type": "module",
   "sideEffects": false,
   "files": [
@@ -39,8 +40,8 @@
     "dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
     "check-types": "tsc --noEmit",
     "test": "bun test",
-    "prepack": "tsc -p tsconfig.build.json && cp ../../README.md README.md",
-    "postpack": "rm -f README.md"
+    "prepack": "tsc -p tsconfig.build.json && cp ../../README.md ../../LICENSE .",
+    "postpack": "rm -f README.md LICENSE"
   },
   "peerDependencies": {
     "next": ">=15.3.0",
